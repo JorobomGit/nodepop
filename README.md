@@ -10,12 +10,12 @@ npm init
 npm install express-generator -g
 
 cd <proyecto>
-nom install mongodb --save
+npm install
+npm install mongodb --save
 npm install mongoose --save
 npm install nodemon --save
 
 Para empezar: npm start o nodemon //Puerto por defecto 3000
-
 
 
 

@@ -1,12 +1,13 @@
 'use strict';
 
-var conn = require('../lib/connectMongoose.js');
 var mongoose = require('mongoose');
 
 var anuncioSchema = mongoose.Schema({
     nombre: String,
     venta: Boolean,
-    precio: Number
+    precio: Number,
+    foto: String,
+    tags: [String]
 });
 
 

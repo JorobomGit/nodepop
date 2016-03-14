@@ -6,13 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 require('./models/anuncio_model');
+require('./models/usuario_model');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
-
-// Rutas de API v1
-
-var apiAnuncios = require('./routes/api/v1/anuncios');
+var usuarios = require('./routes/usuarios');
+var anuncios = require('./routes/anuncios');
 
 var app = express();
 
@@ -29,8 +27,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
-app.use('/api/v1/anuncios', apiAnuncios);
+app.use('/usuarios', usuarios);
+app.use('/anuncios', anuncios);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

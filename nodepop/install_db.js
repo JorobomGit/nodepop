@@ -16,8 +16,21 @@ mongoose.connect('mongodb://localhost/nodepop', function() {
             mongoose.connect('mongodb://localhost/nodepop');
             require('./models/anuncio_model');
             require('./models/usuario_model');
-            insertaAnunciosJSON();
-            insertaUsuariosJSON();
+
+
+            //Se han insertado promesas de modo que cuando inserte o no(resolve)
+            //realice la siguiente insercion y  finalmente cierre la conexion
+
+            insertaAnunciosJSON()
+                .then(
+                    function() {
+                        insertaUsuariosJSON();
+                    })
+                .then(
+                    function(){
+                        console.log('Final');
+                        mongoose.connection.close();                        
+                    })
         });
     });
 });
@@ -26,35 +39,50 @@ mongoose.connect('mongodb://localhost/nodepop', function() {
 
 function insertaAnunciosJSON() {
     //Leemos json
-    var Anuncio = mongoose.model('Anuncio');
-    if (fs.existsSync('./anuncios.json')) {
-        var parsedJSON = require('./anuncios.json');
-        async.eachSeries(parsedJSON.anuncios,
-            function(item, siguiente) {
-                var anuncio = new Anuncio(item);
-                anuncio.save(function(err, anuncio) {
-                    if (err) return { result: false, err: err };
-                    console.log('Escribe: ', anuncio);
-                    siguiente();
-                })
-            });
-    } else { console.log('El fichero anuncios.json no existe'); }
+    return new Promise(function(resolve, rejected) {
+        var Anuncio = mongoose.model('Anuncio');
+        if (fs.existsSync('./anuncios.json')) {
+            var parsedJSON = require('./anuncios.json');
+            async.eachSeries(parsedJSON.anuncios,
+                function(item, siguiente) {
+                    var anuncio = new Anuncio(item);
+                    anuncio.save(function(err, anuncio) {
+                        if (err) return { result: false, err: err };
+                        console.log('Escribe: ', anuncio);
+                        siguiente();
+                    })
+                },
+                function() {
+                    resolve();
+                });
+        } else {
+            console.log('El fichero anuncios.json no existe');
+            resolve();
+        }
+    });
 }
 
 function insertaUsuariosJSON() {
     //Leemos json
-    var Usuario = mongoose.model('Usuario');
-    if (fs.existsSync('./usuarios.json')) {
-        var parsedJSON = require('./usuarios.json');
-        async.eachSeries(parsedJSON.usuarios,
-            function(item, siguiente) {
-                var usuario = new Anuncio(item);
-                usuario.save(function(err, anuncio) {
-                    if (err) return { result: false, err: err };
-                    console.log('Escribe: ', usuario);
-                    siguiente();
-                })
-            }
-        );
-    } else { console.log('El fichero usuarios.json no existe'); }
+    return new Promise(function(resolve, rejected) {
+            var Usuario = mongoose.model('Usuario');
+            if (fs.existsSync('./usuarios.json')) {
+                var parsedJSON = require('./usuarios.json');
+                async.eachSeries(parsedJSON.usuarios,
+                    function(item, siguiente) {
+                        var usuario = new Anuncio(item);
+                        usuario.save(function(err, anuncio) {
+                            if (err) return { result: false, err: err };
+                            console.log('Escribe: ', usuario);
+                            siguiente();
+                        })
+                    },
+                    function() {
+                        resolve();
+                    });
+        } else {
+            console.log('El fichero usuarios.json no existe');
+            resolve();
+        }
+    });
 }

@@ -9,4 +9,4 @@ conn.on('error', console.error.bind(console, 'mongodb connection error:'));
 conn.once('open', function() {
     console.info('Connected to mongoose.');
 });
-mongoose.connect('mongodb://localhost/cursoNode');
+mongoose.connect('mongodb://localhost/nodepop');

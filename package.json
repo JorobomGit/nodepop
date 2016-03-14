@@ -1,0 +1,21 @@
+{
+  "name": "nodepop",
+  "version": "1.0.0",
+  "description": "API para aplicacion de anuncios",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://JorobomGit@github.com/JorobomGit/nodepop.git"
+  },
+  "author": "Jose Romero",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JorobomGit/nodepop/issues"
+  },
+  "homepage": "https://github.com/JorobomGit/nodepop#readme"
+}

@@ -11,12 +11,48 @@ var anuncioSchema = mongoose.Schema({
 });
 
 
-anuncioSchema.statics.list = function(sort,cb) {
-    var query = Anuncio.find({});
+anuncioSchema.statics.list = function(string, cb) {
+
+    var sort = string.sort || 'nombre';
+
+    console.log(string);
+    //Filtros
+    var filtro = {};
+
+    /*Filtrado de tag*/
+    if (string.tag !== undefined) filtro['tags'] = string.tag;
+
+    /*Filtrado de venta*/
+    if (string.venta == 'true' || string.venta == 'false') filtro['venta'] = string.venta;
+
+    /*Filtrado de precio*/
+    if (string.precio !== undefined) {
+        
+        var arr = string.precio.split("-");        
+        console.log(arr)
+
+        if (string.precio[0] == "-") //Caso -50
+            filtro['precio'] = { $lt: arr[1] };
+        else if (string.precio[string.precio.length-1] == "-") //Caso 50-
+            filtro['precio'] = { $gt: arr[0] };
+        else if (arr[1] != undefined) //Caso 1-50
+            filtro['precio'] = { $gt: arr[0], $lt: arr[1]};
+        else if (arr[0]>0) //Caso 50 y positivo
+            filtro['precio'] = arr[0];
+        else console.log('Precio no filtrado');
+        //Si no cumple ninguna condicion, no filtramos
+
+    }
+
+    /*Filtrado de nombre*/
+    if (string.nombre !== undefined){
+        filtro['nombre'] = new RegExp('^' + string.nombre, "i")
+    }
+
+    console.log(filtro);
+    var query = Anuncio.find(filtro);
     query.sort(sort);
-    //query.skip(500);
-    //query.limit(1);
-    //query.select('nombre');
+    query.select();
     return query.exec(function(err, rows) {
         if (err) {
             return cb(err);

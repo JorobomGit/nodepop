@@ -19,9 +19,10 @@ anuncioSchema.statics.list = function(string, cb) {
     //Filtros
     var filtro = {};
 
-    if (string.tag !== undefined) {
-        filtro['tags'] = string.tag;        
-    }
+    if (string.tag !== undefined) filtro['tags'] = string.tag;   
+    if (string.venta == 'true' || string.venta == 'false') filtro['venta'] = string.venta;        
+    
+
     //filtro['nombre'] = 'Bicicleta';
     console.log(filtro);
     var query = Anuncio.find(filtro);

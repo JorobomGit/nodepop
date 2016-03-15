@@ -49,9 +49,16 @@ anuncioSchema.statics.list = function(string, cb) {
         filtro['nombre'] = new RegExp('^' + string.nombre, "i")
     }
 
-    console.log(filtro);
+    
     var query = Anuncio.find(filtro);
+    /*Ordenación*/
     query.sort(sort);
+
+    /*Paginación*/
+    /*Skip*/
+    if(string.skip != undefined)   query.skip(parseInt(string.skip));
+    /*Limite de registros*/
+    if(string.limit != undefined)   query.limit(parseInt(string.limit));
     query.select();
     return query.exec(function(err, rows) {
         if (err) {

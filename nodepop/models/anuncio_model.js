@@ -19,15 +19,17 @@ anuncioSchema.statics.list = function(string, cb) {
     //Filtros
     var filtro = {};
 
+    /*Filtrado de tag*/
     if (string.tag !== undefined) filtro['tags'] = string.tag;
+
+    /*Filtrado de venta*/
     if (string.venta == 'true' || string.venta == 'false') filtro['venta'] = string.venta;
+
+    /*Filtrado de precio*/
     if (string.precio !== undefined) {
         
-        var arr = string.precio.split("-");
-        //console.log(string.precio[0])
-        //if(arr[1] == '') arr[1] = undefined;
+        var arr = string.precio.split("-");        
         console.log(arr)
-
 
         if (string.precio[0] == "-") //Caso -50
             filtro['precio'] = { $lt: arr[1] };
@@ -42,12 +44,14 @@ anuncioSchema.statics.list = function(string, cb) {
 
     }
 
-    //filtro['nombre'] = 'Bicicleta';
+    /*Filtrado de nombre*/
+    if (string.nombre !== undefined){
+        filtro['nombre'] = new RegExp('^' + string.nombre, "i")
+    }
+
     console.log(filtro);
     var query = Anuncio.find(filtro);
     query.sort(sort);
-    //query.skip(500);
-    //query.limit(1);
     query.select();
     return query.exec(function(err, rows) {
         if (err) {

@@ -8,9 +8,11 @@ var Anuncio = mongoose.model('Anuncio');
 /* GET anuncios list. */
 router.get('/', function(req, res) {
 
-	var sort = req.query.sort || 'nombre';
+	
 
-    Anuncio.list(sort, function(err, rows) {
+    
+
+    Anuncio.list(req.query, function(err, rows) {
         if (err) return res.json({ result: false, err: err });
         //Cuando esten disponibles los mando en JSON
         console.log(rows);
@@ -42,6 +44,14 @@ router.get('/hola', function(req, res) {
         res.render('anuncios_list', { anuncios: rows });
 	});
 });
+
+
+/*Para filtros GET /messages?state=sent&archived=false
+Para ordenación GET /messages?sort=-priority,created_at
+Para paginación GET /users?skip=30&limit=10&returnTotal=true
+Para búsquedas GET /messages?q=frr149&sort=created_at*/
+
+
 
 
 module.exports = router;

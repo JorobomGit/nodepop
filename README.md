@@ -24,3 +24,20 @@ Base de datos:
 Ejecutar script .bat (mongod) para base de datos. startMongo para iniciar servidor Mongo.
 Iniciar cliente Mongo con 'mongo' en nuestro proyecto.
 
+
+
+
+Instrucciones de Uso:
+
+Arrancar:
+	cd nodepop
+	npm install
+	nodemon
+
+Inicializar base de datos (el contenido dependerá de los ficheros usuarios.json y anuncios.json):
+
+	npm run installDB
+
+
+
+

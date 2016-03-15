@@ -6,7 +6,7 @@ var usuarioSchema = mongoose.Schema({
     nombre: String,
     email: String,
     clave: String
-})
+});
 
 
 usuarioSchema.statics.list = function(sort, cb) {

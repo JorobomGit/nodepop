@@ -1,0 +1,11 @@
+{
+    "usuarios": [{
+        "nombre": "John",
+        "email": "john@matrix.com",
+        "clave": "wakeUpNeo"
+    }, {
+        "nombre": "Sanders",
+        "email": "sanders@matrix.com",
+        "clave": "whiteRabbit"
+    }]
+}

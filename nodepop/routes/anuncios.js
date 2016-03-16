@@ -4,14 +4,13 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Anuncio = mongoose.model('Anuncio');
+var auth = require('../lib/auth');
+
+var admin = 'admin';
+var pass = 'pass';
 
 /* GET anuncios list. */
-router.get('/', function(req, res) {
-
-	
-
-    
-
+router.get('/', auth(admin,pass),  function(req, res) {
     Anuncio.list(req.query, function(err, rows) {
         if (err) return res.json({ result: false, err: err });
         //Cuando esten disponibles los mando en JSON
@@ -33,16 +32,6 @@ router.post('/', function(req, res) {
         res.json({ result: true, row: newRow });
     });
 
-});
-
-router.get('/hola', function(req, res) {
-
-	var Anuncio = mongoose.model('Anuncio');
-
-	Anuncio.list(function(err, rows){
-		//Cuando tengamos los datos realizamos callback y los mandamos a la vista:
-        res.render('anuncios_list', { anuncios: rows });
-	});
 });
 
 

@@ -49,7 +49,7 @@ anuncioSchema.statics.list = function(string, cb) {
         filtro['nombre'] = new RegExp('^' + string.nombre, "i")
     }
 
-    
+    /*Creamos objeto query*/    
     var query = Anuncio.find(filtro);
     /*Ordenación*/
     query.sort(sort);

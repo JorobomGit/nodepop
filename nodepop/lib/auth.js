@@ -3,6 +3,7 @@
 var basicAuth = require('basic-auth');
 var mongoose = require('mongoose');
 var Usuario = mongoose.model('Usuario');
+var crypto = require('crypto');
 
 var fn = function() {
     return function(req, res, next) {
@@ -11,7 +12,7 @@ var fn = function() {
             console.log(userRequest);
             //Escribe algo en la cabecera
             res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-            res.send(401);
+            res.sendStatus(401);
             return;
         }
 
@@ -19,8 +20,21 @@ var fn = function() {
         var filtro = {};
         filtro['nombre'] = userRequest.name;
         filtro['clave'] = userRequest.pass;
+        console.log(filtro['clave']);
+        /*filtro['clave'] = crypto.createHmac('sha256', userRequest.pass)
+            .digest('hex');*/
 
+        console.log(crypto.createHmac('sha256', userRequest.pass)
+            .digest('hex'));
+
+
+        var hash = crypto.createHmac('sha256', userRequest.pass)
+            .digest('hex');
+        filtro['clave'] = hash;
         var query = Usuario.find(filtro);
+        
+
+        console.log('Filtro123123123: ', filtro);
         query.exec(function(err, rows) {
             if (err) {
                 console.log(err)
@@ -29,9 +43,10 @@ var fn = function() {
             //Comprobamos que no hemos obtenido resultados
             if (rows.length == 0) {
                 console.log('Login incorrecto');
-                res.send(401);
+                res.sendStatus(401);
                 return;
             }
+            console.log('Login Correcto');
             next();
         });
     };

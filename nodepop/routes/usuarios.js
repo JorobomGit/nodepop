@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 var Usuario = mongoose.model('Usuario');
 var auth = require('../lib/auth');
 
+var crypto = require('crypto');
+
 var admin = 'admin';
 var pass = 'pass';
 
@@ -53,10 +55,10 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
     registro(req)
         .then(function() {
-            res.send(201); //Registro creado
+            res.sendStatus(201); //Registro creado
         })
         .catch(function() {
-            res.send(400); //Error al añadir registro
+            res.sendStatus(400); //Error al añadir registro
         })
 });
 
@@ -80,6 +82,10 @@ function registro(req) {
     return validacion(nombre, email)
         .then(
             function() {
+                /*Hashing*/
+                 req.body['clave'] = crypto.createHmac('sha256', clave)
+                    .digest('hex');
+
                 var usuario = new Usuario(req.body);
                 //Lo guardamos en la BD
                 usuario.save(function(err, newRow) {

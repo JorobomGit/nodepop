@@ -56,10 +56,25 @@ anuncioSchema.statics.list = function(string, cb) {
 
     /*Paginación*/
     /*Skip*/
-    if(string.skip != undefined)   query.skip(parseInt(string.skip));
+    if(string.skip != undefined)   query.skip(parseInt(string.start));
     /*Limite de registros*/
     if(string.limit != undefined)   query.limit(parseInt(string.limit));
     query.select();
+    return query.exec(function(err, rows) {
+        if (err) {
+            return cb(err);
+        }
+        return cb(null, rows);
+    });
+};
+
+anuncioSchema.statics.listTag = function(string, cb) {
+
+    /*Creamos objeto query*/    
+    var query = Anuncio.find({});
+
+
+    query.select('tags');
     return query.exec(function(err, rows) {
         if (err) {
             return cb(err);

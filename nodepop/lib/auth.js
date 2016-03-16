@@ -33,8 +33,6 @@ var fn = function() {
         filtro['clave'] = hash;
         var query = Usuario.find(filtro);
         
-
-        console.log('Filtro123123123: ', filtro);
         query.exec(function(err, rows) {
             if (err) {
                 console.log(err)

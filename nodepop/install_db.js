@@ -6,6 +6,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var async = require('async');
 var fs = require('fs');
+
+var crypto = require('crypto');
 /* Connect to the DB */
 mongoose.connect('mongodb://localhost/nodepop', function() {
     /* Drop the DB */
@@ -69,6 +71,9 @@ function insertaUsuariosJSON() {
             var parsedJSON = require('./usuarios.json');
             async.eachSeries(parsedJSON.usuarios,
                 function(item, siguiente) {
+                    /*Hashing*/
+                    item['clave'] = crypto.createHmac('sha256', item['clave'])
+                        .digest('hex');
                     var usuario = new Usuario(item);
                     usuario.save(function(err, usuario) {
                         if (err) return { result: false, err: err };

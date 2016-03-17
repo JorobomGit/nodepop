@@ -1,1 +1,1 @@
-mongod --dbpath ./data/db --directoryperdb
+mongod --dbpath ./nodepop/data/db --directoryperdb

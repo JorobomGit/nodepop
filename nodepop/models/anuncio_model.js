@@ -16,7 +16,7 @@ anuncioSchema.statics.list = function(string, cb) {
     var sort = string.sort || 'nombre';
 
     console.log(string);
-    //Filtros
+    /*Filtros*/
     var filtro = {};
 
     /*Filtrado de tag*/

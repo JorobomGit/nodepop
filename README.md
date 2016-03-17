@@ -15,29 +15,31 @@ npm install mongodb --save
 npm install mongoose --save
 npm install nodemon --save
 
-Para empezar: npm start o nodemon //Puerto por defecto 3000
+Para empezar: 
 
-
-
-Base de datos:
-
-Ejecutar script .bat (mongod) para base de datos. startMongo para iniciar servidor Mongo.
-Iniciar cliente Mongo con 'mongo' en nuestro proyecto.
-
-
-
+1- Ejecutamos 
+startMongo (debemos tener una carpeta nodepop/data/db en nuestro proyecto)
+2- cd nodepop
+3- Instalamos dependencias con npm install
+4(opcional)- npm run InstallDB //Para inicializar base de datos
+5- Para generar documentación: npm run apidoc
+6- nodemon //Para ejecutar nuestra aplicación
 
 Instrucciones de Uso:
 
-Arrancar:
-	cd nodepop
-	npm install
-	nodemon
+Ver anuncios (deberemos autenticarnos): 
+	localhost:3000/anuncios/
+Ver etiquetas de anuncios:
+	localhost:3000/anuncios/tags
+Ver usuarios
+	localhost:3000/usuarios/
 
-Inicializar base de datos (el contenido dependerá de los ficheros usuarios.json y anuncios.json):
+Ejemplo filtrado anuncios:
+	http://localhost:3000/anuncios?tag=mobile&venta=false&nombre=ip&precio=50&start=0&limit=2&sort=precio
 
-	npm run installDB
-
-
+Insertar usuario
+	POST a localhost:3000/usuarios/
+Insertar anuncio
+	POST a localhost:3000/anuncios/
 
 

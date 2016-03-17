@@ -3,8 +3,9 @@
 <head>	
 </head>
 <body>
-	<% anuncios.forEach(function(anuncio){ %>
- 	<p><%= anuncio.nombre %> </p>
+	<% rows.forEach(function(anuncio){ %>
+ 	<p><b>Nombre:</b><%= anuncio.nombre %> <b>Venta:</b><%= anuncio.venta %> <b>Precio:</b><%= anuncio.precio %> <b>Tags:</b><%= anuncio.tags %></p>
+ 	<img src=<%= anuncio.foto %> alt="">
 	<% }) %>
 </body>
 </html>

@@ -8,22 +8,34 @@ var auth = require('../lib/auth');
 
 var crypto = require('crypto');
 
-var admin = 'admin';
-var pass = 'pass';
-
 /**
- * @api {get} /usuarios Get Users List sorted by specified (nombre as default).
- * @apiName GetUser
- * @apiGroup Usuario
+ * @api {get} /usuarios Get Usuarios: Obtiene los usuarios
+ * @apiVersion 1.0.0
+ * @apiName GetUsuarios
+ * @apiGroup Usuarios
  *
+ *
+ * @apiSuccess {String} nombre  Nombre del usuario (debe ser único).
+ * @apiSuccess {String} email  Email del usuario (debe ser único).
+ * @apiSuccess {String} clave   Clave del usuario encriptada.
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
- *     { 
- *          "result": "true",
- *          "rows": "datos" 
+ *     {
+ *       "result": "true",
+ *       "nombre": "Smith",
+ *       "email": "agenteSmith@matrix.com",
+ *       "clave": "e2bd05dfa68d1b2fa5deabc4a9b37c311be54d2cb0fc540d819847db66d76a28"
  *     }
  *
+ * @apiError (Error 500) DBError Descripcion error base de datos
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *        "result": "false",
+ *        "err": "DBError"
+ *     }
  */
 
 router.get('/', function(req, res) {
@@ -31,25 +43,39 @@ router.get('/', function(req, res) {
 
     Usuario.list(sort, function(err, rows) {
         if (err) return res.json({ result: false, err: err });
-        //Cuando esten disponibles los mando en JSON
         console.log(rows);
-        res.json({ result: true, rows: rows });
+        res.render('usuarios', { result: true, rows: rows });
     });
 });
 
 /**
- * @api {post} /usuarios save user into DB with content of the request body.
- * @apiName PostUser
- * @apiGroup Usuario
+ * @api {post} /usuarios Post Usuario: Inserta un usuario
+ * @apiVersion 1.0.0
+ * @apiName PostUsuarios
+ * @apiGroup Usuarios
  *
+ * @apiSuccess {String} nombre  Nombre del usuario (debe ser único).
+ * @apiSuccess {String} email   Email del usuario (debe ser único).
+ * @apiSuccess {String} clave   Clave del usuario encriptada.
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
- *     { 
- *          "result": "true",
- *          "newRow": "nuevo Usuario" 
+ *     {
+ *       "result": "true",
+ *       "nombre": "Smith",
+ *       "email": "agenteSmith@matrix.com",
+ *       "clave": "e2bd05dfa68d1b2fa5deabc4a9b37c311be54d2cb0fc540d819847db66d76a28"
  *     }
  *
+ * 
+ * @apiError (Error 500) DBError Descripcion error base de datos
+ * 
+ * @apiErrorExample Error-Response-DB:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *        "result": "false",
+ *        "err": "DBError"
+ *     }
  */
 
 router.post('/', function(req, res) {
@@ -61,6 +87,19 @@ router.post('/', function(req, res) {
             res.sendStatus(400); //Error al añadir registro
         })
 });
+
+
+/***************************************/
+/*Nombre: registro**********************/
+/*Descripcion: dado un nombre, email y */
+/*clave, registra un usuario************/
+/*Parametros:***************************/
+/**Entrada:*****************************/
+/***req: request del usuario************/
+/**Salida:******************************/
+/***Json con datos introducidos si OK***/
+/***Texto indicando error si ERR********/
+/***************************************/
 
 function registro(req) {
     var usuario = new Usuario(req.body);
@@ -100,7 +139,18 @@ function registro(req) {
         });
 }
 
-//Funcion para comprobar que el nombre o el email no existen ya
+/***************************************/
+/*Nombre: validacion********************/
+/*Descripcion: dado un nombre y un email/
+/*valida un usuario campo a campo*******/
+/*Parametros:***************************/
+/**Entrada:*****************************/
+/***nombre: nombre del usuario**********/
+/***email: email del usuario************/
+/**Salida:******************************/
+/***Promesa indicando resolve o rejected/
+/***************************************/
+
 function validacion(nombre, email) {
     console.log('Nombre');
     return validarCampo('nombre', nombre)
@@ -118,7 +168,17 @@ function validacion(nombre, email) {
 }
 
 
-/*Funcion que comprueba si un cierto campo no existe ya en nuestra BD*/
+/***************************************/
+/*Nombre: validarCampo******************/
+/*Descripcion: dado un campo y su dato */
+/*comprobamos que no exista en la BD****/
+/*Parametros:***************************/
+/**Entrada:*****************************/
+/***campo: campo a buscar***************/
+/***dato: dato a validar****************/
+/**Salida:******************************/
+/***Promesa indicando resolve o rejected/
+/***************************************/
 function validarCampo(campo, dato) {
     return new Promise(function(resolve, rejected) {
         var filtro = {};

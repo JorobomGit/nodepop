@@ -1,4 +1,11 @@
-# nodepop
+ _   _           _                        
+| \ | |         | |                       
+|  \| | ___   __| | ___ _ __   ___  _ __  
+| . ` |/ _ \ / _` |/ _ \ '_ \ / _ \| '_ \ 
+| |\  | (_) | (_| |  __/ |_) | (_) | |_) |
+\_| \_/\___/ \__,_|\___| .__/ \___/| .__/ 
+                       | |         | |    
+                       |_|         |_|    
 ##API con nodejs y mongodb para una aplicación de venta de artículos.
 
 ###Para empezar: 

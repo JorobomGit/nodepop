@@ -39,7 +39,7 @@ nodemon
 	```
 	localhost:3000/anuncios/tags
 	```
-* Ver usuarios
+* Ver usuarios:
 	```
 	localhost:3000/usuarios/
 	```
@@ -49,11 +49,11 @@ nodemon
 	http://localhost:3000/anuncios?tag=mobile&venta=false&nombre=ip&precio=50&start=0&limit=2&sort=precio
 	```
 
-* Insertar usuario
+* Insertar usuario:
 	```
 	POST a localhost:3000/usuarios/
 	```
-* Insertar anuncio
+* Insertar anuncio:
 	```
 	POST a localhost:3000/anuncios/
 	```
@@ -64,4 +64,19 @@ nodemon
 	```
 
 
+## Changelog
+
+### v.1.0.0 - 2016-03-18
+
+* Implementación base de datos con Mongo.
+* Node básico con express.
+* Script InstallDB asíncrono con promesas.
+* Iniciación en Apidoc.
+* Introducción de usuarios y anuncios.
+* Añadido filtrado, paginación y ordenación.
+* Registro.
+* Autenticación.
+* Hashing
+* Muestra de tags
+* Vistas simples
 

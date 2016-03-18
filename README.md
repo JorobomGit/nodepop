@@ -17,7 +17,7 @@ npm install
 ```
  4 npm run InstallDB (opcional). Para inicializar base de datos
 ```
-npm run InstallDB
+npm run installDB
 ```
  5 Para generar documentación: npm run apidoc
 ```

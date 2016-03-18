@@ -13,3 +13,7 @@ style.css
 # DB
 
 db/
+
+# Apidoc
+
+apidoc/
